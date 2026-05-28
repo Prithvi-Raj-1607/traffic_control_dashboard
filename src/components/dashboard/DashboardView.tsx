@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { trafficInsights, citySummaries, recentEvents, departmentStatus, keyMetrics, cityAreasMap, citiesData } from '@/lib/dashboard-data';
+import { citySummaries, departmentStatus, cityAreasMap, citiesData, getTrafficInsightsForCity, getEventsForCity, getKeyMetricsForCity } from '@/lib/dashboard-data';
 import { IndiaRiskMap, CityRiskMap } from './MapPanel';
 import {
   Car, Gauge, AlertTriangle, Siren, TrendingUp, TrendingDown,
@@ -226,10 +226,13 @@ interface DashboardViewProps {
 }
 
 export default function DashboardView({ selectedCity, onCityChange, onSwitchToLiveMap }: DashboardViewProps) {
+  const isIndiaView = !selectedCity || selectedCity === 'All India';
   const summary = citySummaries[selectedCity] || citySummaries['Nagpur'];
   const cityAreas = cityAreasMap[selectedCity] || cityAreasMap['Nagpur'];
   const cityData = citiesData.find(c => c.name === selectedCity) || citiesData[0];
-  const isIndiaView = !selectedCity || selectedCity === 'All India';
+  const cityInsights = getTrafficInsightsForCity(selectedCity);
+  const cityEvents = getEventsForCity(selectedCity);
+  const cityKeyMetrics = getKeyMetricsForCity(selectedCity);
 
   return (
     <div className="space-y-6">
@@ -263,35 +266,35 @@ export default function DashboardView({ selectedCity, onCityChange, onSwitchToLi
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <InsightCard
               title="Vehicle Count"
-              value={trafficInsights.vehicleCount}
+              value={cityInsights.vehicleCount}
               icon={Car}
               trend="up"
-              trendData={trafficInsights.vehicleCountTrend}
+              trendData={cityInsights.vehicleCountTrend}
               color="bg-[#66B800]"
             />
             <InsightCard
               title="Avg Speed"
-              value={trafficInsights.avgSpeed}
+              value={cityInsights.avgSpeed}
               icon={Gauge}
               suffix=" km/h"
               trend="stable"
-              trendData={trafficInsights.avgSpeedTrend}
+              trendData={cityInsights.avgSpeedTrend}
               color="bg-blue-500"
             />
             <InsightCard
               title="Violations"
-              value={trafficInsights.violationCount}
+              value={cityInsights.violationCount}
               icon={AlertTriangle}
               trend="up"
-              trendData={trafficInsights.violationTrend}
+              trendData={cityInsights.violationTrend}
               color="bg-amber-500"
             />
             <InsightCard
               title="Accidents"
-              value={trafficInsights.accidentDetected}
+              value={cityInsights.accidentDetected}
               icon={Siren}
               trend="down"
-              trendData={trafficInsights.accidentTrend}
+              trendData={cityInsights.accidentTrend}
               color="bg-red-500"
             />
           </div>
@@ -302,7 +305,7 @@ export default function DashboardView({ selectedCity, onCityChange, onSwitchToLi
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Recent Events</h3>
               <div className="space-y-2 max-h-72 overflow-y-auto custom-scrollbar pr-1">
-                {recentEvents.map((event) => (
+                {cityEvents.map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}
               </div>
@@ -321,7 +324,7 @@ export default function DashboardView({ selectedCity, onCityChange, onSwitchToLi
       <div>
         <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-          {keyMetrics.map((metric) => (
+          {cityKeyMetrics.map((metric) => (
             <KeyMetricCard key={metric.id} metric={metric} />
           ))}
         </div>

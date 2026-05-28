@@ -1,14 +1,20 @@
 'use client';
 
 import React from 'react';
-import { recentEvents, departmentStatus } from '@/lib/dashboard-data';
+import { getEventsForCity, cityAreasMap, departmentStatus } from '@/lib/dashboard-data';
 import { Siren, ShieldCheck, AlertTriangle, Activity, Hospital, Shield, Flame, Truck, TrafficCone, Radio } from 'lucide-react';
 
-export default function EventsView() {
-  const critical = recentEvents.filter(e => e.severity === 'Critical').length;
-  const high = recentEvents.filter(e => e.severity === 'High').length;
-  const medium = recentEvents.filter(e => e.severity === 'Medium').length;
-  const accidents = recentEvents.filter(e => e.accidentOccurred).length;
+interface EventsViewProps {
+  selectedCity: string;
+}
+
+export default function EventsView({ selectedCity }: EventsViewProps) {
+  const filteredEvents = getEventsForCity(selectedCity);
+
+  const critical = filteredEvents.filter(e => e.severity === 'Critical').length;
+  const high = filteredEvents.filter(e => e.severity === 'High').length;
+  const medium = filteredEvents.filter(e => e.severity === 'Medium').length;
+  const accidents = filteredEvents.filter(e => e.accidentOccurred).length;
 
   const iconMap: Record<string, React.ElementType> = { Hospital, Shield, Flame, Truck, TrafficCone, Radio };
   const statusColors: Record<string, string> = {
@@ -25,13 +31,20 @@ export default function EventsView() {
     Low: 'bg-green-100 text-green-700 border-green-200',
   };
 
-  const highSeverityViolations = [
-    { type: 'Overspeeding', count: 156, zone: 'Highway NH-44' },
-    { type: 'Signal Jumping', count: 89, zone: 'Silk Board Junction' },
-    { type: 'Drunk Driving', count: 45, zone: 'Rohini Sector' },
-    { type: 'Wrong Side', count: 67, zone: 'Charminar Area' },
-    { type: 'No Helmet', count: 123, zone: 'Hinjewadi IT Park' },
-  ];
+  const cityAreaData = cityAreasMap[selectedCity] || [];
+  const highSeverityViolations = cityAreaData.length > 0
+    ? cityAreaData.slice(0, 5).map(area => ({
+        type: area.mostCommonViolation,
+        count: area.totalViolations,
+        zone: area.area || area.city
+      }))
+    : [
+        { type: 'Overspeeding', count: 156, zone: 'Highway NH-44' },
+        { type: 'Signal Jumping', count: 89, zone: 'Silk Board Junction' },
+        { type: 'Drunk Driving', count: 45, zone: 'Rohini Sector' },
+        { type: 'Wrong Side', count: 67, zone: 'Charminar Area' },
+        { type: 'No Helmet', count: 123, zone: 'Hinjewadi IT Park' },
+      ];
 
   return (
     <div className="space-y-6">
@@ -81,7 +94,7 @@ export default function EventsView() {
         <div className="lg:col-span-1 bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Events Timeline</h3>
           <div className="space-y-3 max-h-96 overflow-y-auto custom-scrollbar pr-1">
-            {recentEvents.map((event, idx) => {
+            {filteredEvents.map((event, idx) => {
               const timeAgo = (ts: string) => {
                 const diff = Date.now() - new Date(ts).getTime();
                 const mins = Math.floor(diff / 60000);
@@ -90,7 +103,7 @@ export default function EventsView() {
               return (
                 <div key={event.id} className="relative pl-6 pb-3">
                   {/* Timeline line */}
-                  {idx < recentEvents.length - 1 && (
+                  {idx < filteredEvents.length - 1 && (
                     <div className="absolute left-2 top-4 w-0.5 h-full bg-gray-200" />
                   )}
                   {/* Timeline dot */}

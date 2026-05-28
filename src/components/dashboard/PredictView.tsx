@@ -1,22 +1,28 @@
 'use client';
 
 import React from 'react';
-import { clusterResults } from '@/lib/dashboard-data';
+import { getClusterResultsForCity } from '@/lib/dashboard-data';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ZAxis } from 'recharts';
 import { Shield, ShieldAlert, ShieldCheck, Users, Target } from 'lucide-react';
 
 const clusterColors: Record<string, string> = { Low: '#22C55E', Medium: '#F59E0B', High: '#EF4444' };
 
-const clusterStats = [
-  { id: 0, label: 'High Risk', icon: ShieldAlert, color: '#EF4444', bgColor: 'bg-red-50', count: clusterResults.filter(c => c.cluster === 0).length, areas: clusterResults.filter(c => c.cluster === 0).slice(0, 3).map(c => c.area) },
-  { id: 1, label: 'Medium Risk', icon: Shield, color: '#F59E0B', bgColor: 'bg-yellow-50', count: clusterResults.filter(c => c.cluster === 1).length, areas: clusterResults.filter(c => c.cluster === 1).slice(0, 3).map(c => c.area) },
-  { id: 2, label: 'Low Risk', icon: ShieldCheck, color: '#22C55E', bgColor: 'bg-green-50', count: clusterResults.filter(c => c.cluster === 2).length, areas: clusterResults.filter(c => c.cluster === 2).slice(0, 3).map(c => c.area) },
-];
+interface PredictViewProps {
+  selectedCity: string;
+}
 
-export default function PredictView() {
+export default function PredictView({ selectedCity }: PredictViewProps) {
   const [selectedCluster, setSelectedCluster] = React.useState<number | null>(null);
-  const filteredResults = selectedCluster !== null ? clusterResults.filter(c => c.cluster === selectedCluster) : clusterResults;
-  const scatterData = clusterResults.map(c => ({ x: c.totalViolations, y: c.accidentCount, riskLevel: c.riskLevel, area: c.area, city: c.city }));
+  const filteredClusters = getClusterResultsForCity(selectedCity);
+
+  const clusterStats = [
+    { id: 0, label: 'High Risk', icon: ShieldAlert, color: '#EF4444', bgColor: 'bg-red-50', count: filteredClusters.filter(c => c.cluster === 0).length, areas: filteredClusters.filter(c => c.cluster === 0).slice(0, 3).map(c => c.area) },
+    { id: 1, label: 'Medium Risk', icon: Shield, color: '#F59E0B', bgColor: 'bg-yellow-50', count: filteredClusters.filter(c => c.cluster === 1).length, areas: filteredClusters.filter(c => c.cluster === 1).slice(0, 3).map(c => c.area) },
+    { id: 2, label: 'Low Risk', icon: ShieldCheck, color: '#22C55E', bgColor: 'bg-green-50', count: filteredClusters.filter(c => c.cluster === 2).length, areas: filteredClusters.filter(c => c.cluster === 2).slice(0, 3).map(c => c.area) },
+  ];
+
+  const filteredResults = selectedCluster !== null ? filteredClusters.filter(c => c.cluster === selectedCluster) : filteredClusters;
+  const scatterData = filteredClusters.map(c => ({ x: c.totalViolations, y: c.accidentCount, riskLevel: c.riskLevel, area: c.area, city: c.city }));
 
   return (
     <div className="space-y-6">

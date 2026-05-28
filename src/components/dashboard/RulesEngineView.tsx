@@ -2,12 +2,18 @@
 
 import React from 'react';
 import { associationRules } from '@/lib/dashboard-data';
-import { ArrowRight, Filter, GitBranch } from 'lucide-react';
+import { ArrowRight, Filter, GitBranch, MapPin } from 'lucide-react';
 
-export default function RulesEngineView() {
+interface RulesEngineViewProps {
+  selectedCity: string;
+}
+
+export default function RulesEngineView({ selectedCity }: RulesEngineViewProps) {
   const [minSupport, setMinSupport] = React.useState(0.05);
   const [minConfidence, setMinConfidence] = React.useState(0.3);
   const [minLift, setMinLift] = React.useState(1.5);
+
+  const isAllIndia = !selectedCity || selectedCity === 'All India';
 
   const filteredRules = React.useMemo(() => {
     return associationRules.filter(r => r.support >= minSupport && r.confidence >= minConfidence && r.lift >= minLift);
@@ -24,7 +30,15 @@ export default function RulesEngineView() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-gray-900">Rules Engine</h2>
-          <p className="text-sm text-gray-500">Apriori association rule mining results</p>
+          <p className="text-sm text-gray-500">
+            Apriori association rule mining results
+            {!isAllIndia && (
+              <span className="inline-flex items-center gap-1 ml-2 px-2 py-0.5 bg-[#ecfccb] text-[#66B800] text-xs font-semibold rounded-full">
+                <MapPin className="w-3 h-3" />
+                {selectedCity}
+              </span>
+            )}
+          </p>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-gray-500">
           <GitBranch className="w-3.5 h-3.5" />

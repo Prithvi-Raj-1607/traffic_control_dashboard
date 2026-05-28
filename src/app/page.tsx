@@ -11,10 +11,11 @@ import PredictView from '@/components/dashboard/PredictView';
 import RulesEngineView from '@/components/dashboard/RulesEngineView';
 import ReportsView from '@/components/dashboard/ReportsView';
 import SettingsView from '@/components/dashboard/SettingsView';
+import { useCityStore } from '@/lib/city-store';
 
 export default function Home() {
   const [activeNav, setActiveNav] = React.useState<NavItem>('dashboard');
-  const [selectedCity, setSelectedCity] = React.useState('Nagpur');
+  const { selectedCity, setSelectedCity } = useCityStore();
   const [isOnline] = React.useState(true);
   const [lastUpdated] = React.useState(new Date().toISOString());
 
@@ -25,13 +26,13 @@ export default function Home() {
       case 'livemap':
         return <LiveMapView selectedCity={selectedCity} onCityChange={setSelectedCity} />;
       case 'events':
-        return <EventsView />;
+        return <EventsView selectedCity={selectedCity} />;
       case 'analyze':
-        return <AnalyzeView />;
+        return <AnalyzeView selectedCity={selectedCity} />;
       case 'predict':
-        return <PredictView />;
+        return <PredictView selectedCity={selectedCity} />;
       case 'rules':
-        return <RulesEngineView />;
+        return <RulesEngineView selectedCity={selectedCity} />;
       case 'reports':
         return <ReportsView />;
       case 'settings':
@@ -49,12 +50,7 @@ export default function Home() {
       {/* Main Content Area */}
       <div className="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
         {/* Sticky Header */}
-        <Header
-          selectedCity={selectedCity}
-          onCityChange={setSelectedCity}
-          isOnline={isOnline}
-          lastUpdated={lastUpdated}
-        />
+        <Header isOnline={isOnline} lastUpdated={lastUpdated} />
 
         {/* Scrollable Content */}
         <main className="flex-1 overflow-y-auto p-6 custom-scrollbar">

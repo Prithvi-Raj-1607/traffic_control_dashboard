@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { violationAnalysis } from '@/lib/dashboard-data';
+import { getViolationAnalysisForCity } from '@/lib/dashboard-data';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend,
@@ -10,23 +10,30 @@ import {
 const CHART_COLORS = ['#66B800', '#4ADE80', '#22C55E', '#16A34A', '#15803D', '#166534', '#86EFAC', '#BBF7D0'];
 const PIE_COLORS = ['#66B800', '#F59E0B', '#8B5CF6'];
 
-const charts = [
-  { title: 'Violations by Type', data: violationAnalysis.violationsByType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'count', type: 'bar' as const },
-  { title: 'Violations by Vehicle Type', data: violationAnalysis.violationsByVehicleType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'count', type: 'bar' as const },
-  { title: 'Violations by Driver Age Group', data: violationAnalysis.violationsByAgeGroup as unknown as Record<string, unknown>[], xKey: 'ageGroup', yKey: 'count', type: 'bar' as const },
-  { title: 'Violations by Gender', data: violationAnalysis.violationsByGender as unknown as Record<string, unknown>[], xKey: 'gender', yKey: 'count', type: 'pie' as const },
-  { title: 'Violations by License Type', data: violationAnalysis.violationsByLicenseType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'count', type: 'bar' as const },
-  { title: 'Violations by Road Type', data: violationAnalysis.violationsByRoadType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'count', type: 'bar' as const },
-  { title: 'Fine Amount by Violation Type', data: violationAnalysis.fineByViolationType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'amount', type: 'bar' as const },
-  { title: 'Repeat Offenders', data: violationAnalysis.repeatOffenders as unknown as Record<string, unknown>[], xKey: 'range', yKey: 'count', type: 'bar' as const },
-];
+interface AnalyzeViewProps {
+  selectedCity: string;
+}
 
-export default function AnalyzeView() {
+export default function AnalyzeView({ selectedCity }: AnalyzeViewProps) {
+  const cityAnalysis = getViolationAnalysisForCity(selectedCity);
+  const isAllIndia = !selectedCity || selectedCity === 'All India';
+
+  const charts = [
+    { title: `Violations by Type${!isAllIndia ? ` - ${selectedCity}` : ''}`, data: cityAnalysis.violationsByType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'count', type: 'bar' as const },
+    { title: `Violations by Vehicle Type${!isAllIndia ? ` - ${selectedCity}` : ''}`, data: cityAnalysis.violationsByVehicleType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'count', type: 'bar' as const },
+    { title: `Violations by Driver Age Group${!isAllIndia ? ` - ${selectedCity}` : ''}`, data: cityAnalysis.violationsByAgeGroup as unknown as Record<string, unknown>[], xKey: 'ageGroup', yKey: 'count', type: 'bar' as const },
+    { title: `Violations by Gender${!isAllIndia ? ` - ${selectedCity}` : ''}`, data: cityAnalysis.violationsByGender as unknown as Record<string, unknown>[], xKey: 'gender', yKey: 'count', type: 'pie' as const },
+    { title: `Violations by License Type${!isAllIndia ? ` - ${selectedCity}` : ''}`, data: cityAnalysis.violationsByLicenseType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'count', type: 'bar' as const },
+    { title: `Violations by Road Type${!isAllIndia ? ` - ${selectedCity}` : ''}`, data: cityAnalysis.violationsByRoadType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'count', type: 'bar' as const },
+    { title: `Fine Amount by Violation Type${!isAllIndia ? ` - ${selectedCity}` : ''}`, data: cityAnalysis.fineByViolationType as unknown as Record<string, unknown>[], xKey: 'type', yKey: 'amount', type: 'bar' as const },
+    { title: `Repeat Offenders${!isAllIndia ? ` - ${selectedCity}` : ''}`, data: cityAnalysis.repeatOffenders as unknown as Record<string, unknown>[], xKey: 'range', yKey: 'count', type: 'bar' as const },
+  ];
+
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-bold text-gray-900">Violation Analysis</h2>
-        <p className="text-sm text-gray-500">Comprehensive analysis of traffic violations across India</p>
+        <p className="text-sm text-gray-500">Comprehensive analysis of traffic violations {isAllIndia ? 'across India' : `in ${selectedCity}`}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

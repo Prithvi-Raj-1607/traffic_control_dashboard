@@ -446,3 +446,77 @@ export const clusterResults: ClusterResult[] = [
   { id: 'cl31', area: 'Basavanagudi', city: 'Bengaluru', cluster: 2, riskLevel: 'Low', riskScore: 56, totalViolations: 1560, accidentCount: 34, lat: 12.950, lon: 77.550 },
   { id: 'cl32', area: 'Uppal', city: 'Hyderabad', cluster: 2, riskLevel: 'Low', riskScore: 62, totalViolations: 2120, accidentCount: 50, lat: 17.470, lon: 78.560 },
 ];
+
+// ── City-Specific Data Helpers ──
+
+// Get traffic insights for a specific city (derived from city summary data)
+export function getTrafficInsightsForCity(city: string): TrafficInsight {
+  const isAllIndia = !city || city === 'All India';
+  if (isAllIndia) return trafficInsights;
+
+  const summary = citySummaries[city];
+  if (!summary) return trafficInsights;
+
+  const ratio = summary.totalViolations / trafficInsights.violationCount;
+  return {
+    vehicleCount: Math.round(trafficInsights.vehicleCount * ratio),
+    avgSpeed: summary.avgSpeed,
+    violationCount: Math.round(summary.totalViolations / 365),
+    accidentDetected: Math.round(summary.totalAccidents / 365),
+    lastUpdated: new Date().toISOString(),
+    vehicleCountTrend: trafficInsights.vehicleCountTrend.map(v => Math.round(v * ratio)),
+    avgSpeedTrend: trafficInsights.avgSpeedTrend.map(() => summary.avgSpeed + Math.round((Math.random() - 0.5) * 8)),
+    violationTrend: trafficInsights.violationTrend.map(v => Math.round(v * ratio)),
+    accidentTrend: trafficInsights.accidentTrend.map(v => Math.max(1, Math.round(v * ratio))),
+  };
+}
+
+// Get events filtered by city
+export function getEventsForCity(city: string): EventData[] {
+  if (!city || city === 'All India') return recentEvents;
+  return recentEvents.filter(e => e.city === city);
+}
+
+// Get cluster results filtered by city
+export function getClusterResultsForCity(city: string): ClusterResult[] {
+  if (!city || city === 'All India') return clusterResults;
+  return clusterResults.filter(c => c.city === city);
+}
+
+// Get key metrics for a specific city
+export function getKeyMetricsForCity(city: string): KeyMetric[] {
+  if (!city || city === 'All India') return keyMetrics;
+  const summary = citySummaries[city];
+  if (!summary) return keyMetrics;
+
+  const ratio = summary.totalViolations / 498000; // total of all cities
+  return keyMetrics.map(m => ({
+    ...m,
+    value: typeof m.value === 'number'
+      ? (m.id === 'avg-response' ? m.value : Math.round(Number(m.value) * ratio))
+      : m.value,
+    subtitle: m.subtitle.replace(/\d+/, Math.round(Number(m.value) * ratio).toString()),
+  }));
+}
+
+// Get violation analysis scaled for a specific city
+export function getViolationAnalysisForCity(city: string): ViolationAnalysis {
+  if (!city || city === 'All India') return violationAnalysis;
+  const summary = citySummaries[city];
+  if (!summary) return violationAnalysis;
+
+  const ratio = summary.totalViolations / 498000;
+  const scaleArray = <T extends Record<string, unknown>>(arr: T[], key: keyof T): T[] =>
+    arr.map(item => ({ ...item, [key]: Math.round(Number(item[key]) * ratio) }));
+
+  return {
+    violationsByType: scaleArray(violationAnalysis.violationsByType, 'count'),
+    violationsByVehicleType: scaleArray(violationAnalysis.violationsByVehicleType, 'count'),
+    violationsByAgeGroup: scaleArray(violationAnalysis.violationsByAgeGroup, 'count'),
+    violationsByGender: scaleArray(violationAnalysis.violationsByGender, 'count'),
+    violationsByLicenseType: scaleArray(violationAnalysis.violationsByLicenseType, 'count'),
+    violationsByRoadType: scaleArray(violationAnalysis.violationsByRoadType, 'count'),
+    fineByViolationType: scaleArray(violationAnalysis.fineByViolationType, 'amount'),
+    repeatOffenders: scaleArray(violationAnalysis.repeatOffenders, 'count'),
+  };
+}
