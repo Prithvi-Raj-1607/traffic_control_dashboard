@@ -1004,16 +1004,30 @@ def get_association_rules(db: Optional[Session]) -> List[AssociationRuleResponse
     if cached:
         return cached
 
-    # Try to run actual Apriori from ML module
+    # First try to load pre-computed rules from CSV
     try:
-        from app.ml.association_mining import run_apriori
-        rules = run_apriori(db)
-        if rules:
-            cache_set(ml_cache, cache_key, rules)
-            return rules
+        rules_csv = os.path.join(DATA_DIR, 'association_rules.csv')
+        if os.path.exists(rules_csv):
+            df = pd.read_csv(rules_csv)
+            if not df.empty:
+                rules = []
+                for i, row in df.iterrows():
+                    rules.append(AssociationRuleResponse(
+                        id=f"ar_{i}",
+                        antecedent=str(row.get('antecedent', '')),
+                        consequent=str(row.get('consequent', '')),
+                        support=float(row.get('support', 0)),
+                        confidence=float(row.get('confidence', 0)),
+                        lift=float(row.get('lift', 1.0)),
+                        interpretation=str(row.get('interpretation', ''))
+                    ))
+                if rules:
+                    cache_set(ml_cache, cache_key, rules)
+                    return rules
     except Exception as exc:
-        logger.warning("Apriori mining failed, using defaults: %s", exc)
+        logger.warning("Failed to load association rules from CSV: %s", exc)
 
+    # Fallback to default rules
     rules = _default_association_rules()
     cache_set(ml_cache, cache_key, rules)
     return rules
@@ -1079,14 +1093,38 @@ def get_risk_clusters(db: Optional[Session]) -> List[ClusterResultResponse]:
     if cached:
         return cached
 
+    # First try to load pre-computed clusters from CSV
     try:
-        from app.ml.clustering import run_kmeans
-        clusters = run_kmeans(db)
-        if clusters:
-            cache_set(ml_cache, cache_key, clusters)
-            return clusters
+        clusters_csv = os.path.join(DATA_DIR, 'risk_clusters.csv')
+        if os.path.exists(clusters_csv):
+            df = pd.read_csv(clusters_csv)
+            if not df.empty:
+                clusters = []
+                for i, row in df.iterrows():
+                    risk_level = str(row.get('risk_level', 'Low'))
+                    cluster = int(row.get('cluster', 2))
+                    total_violations = int(row.get('total_violations', 0))
+                    accident_count = int(row.get('accident_count', 0))
+                    lat = float(row.get('latitude', 0))
+                    lon = float(row.get('longitude', 0))
+                    clusters.append(ClusterResultResponse(
+                        id=f"cl_{i}",
+                        area=str(row.get('area_name', '')),
+                        city=str(row.get('city', '')),
+                        cluster=cluster,
+                        riskLevel=risk_level,
+                        riskScore=min(99, total_violations / 100),
+                        totalViolations=total_violations,
+                        accidentCount=accident_count,
+                        lat=lat,
+                        lon=lon,
+                    ))
+                if clusters:
+                    # Limit to first 200 to avoid memory issues
+                    cache_set(ml_cache, cache_key, clusters[:200])
+                    return clusters[:200]
     except Exception as exc:
-        logger.warning("K-Means clustering failed, using defaults: %s", exc)
+        logger.warning("Failed to load risk clusters from CSV: %s", exc)
 
     clusters = _default_clusters()
     cache_set(ml_cache, cache_key, clusters)

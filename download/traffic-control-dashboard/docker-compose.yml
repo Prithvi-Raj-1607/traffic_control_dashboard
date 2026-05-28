@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: traffic_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: traffic_warehouse
+      MYSQL_USER: traffic_user
+      MYSQL_PASSWORD: traffic_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/sql/create_database.sql:/docker-entrypoint-initdb.d/01_create_database.sql
+      - ./backend/sql/create_tables.sql:/docker-entrypoint-initdb.d/02_create_tables.sql
+      - ./backend/sql/create_indexes.sql:/docker-entrypoint-initdb.d/03_create_indexes.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: traffic_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: traffic_user
+      DB_PASSWORD: traffic_pass
+      DB_NAME: traffic_warehouse
+      OPEN_METEO_URL: https://api.open-meteo.com/v1/forecast
+      NOMINATIM_URL: https://nominatim.openstreetmap.org/search
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./backend/data:/app/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: traffic_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
