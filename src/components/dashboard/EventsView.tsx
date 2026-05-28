@@ -152,21 +152,25 @@ export default function EventsView({ selectedCity }: EventsViewProps) {
         </div>
 
         {/* High Severity Violations */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col min-h-0">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">High Severity Violations</h3>
-          <div className="space-y-3">
-            {highSeverityViolations.map((v, i) => (
-              <div key={i} className="p-3 bg-red-50 rounded-xl border border-red-100">
-                <div className="flex items-center justify-between mb-1">
-                  <p className="text-sm font-semibold text-red-800">{v.type}</p>
-                  <span className="text-lg font-bold text-red-600">{v.count}</span>
+          <div className="space-y-2 overflow-y-auto custom-scrollbar flex-1 max-h-96 pr-1">
+            {highSeverityViolations.map((v, i) => {
+              const maxCount = Math.max(...highSeverityViolations.map(v => v.count));
+              const barWidth = maxCount > 0 ? Math.min((v.count / maxCount) * 100, 100) : 0;
+              return (
+                <div key={i} className="p-3 bg-red-50 rounded-xl border border-red-100">
+                  <div className="flex items-center justify-between mb-1 min-w-0">
+                    <p className="text-sm font-semibold text-red-800 truncate mr-2">{v.type}</p>
+                    <span className="text-lg font-bold text-red-600 flex-shrink-0">{v.count.toLocaleString()}</span>
+                  </div>
+                  <p className="text-xs text-red-600 truncate">{v.zone}</p>
+                  <div className="mt-2 w-full bg-red-200 rounded-full h-1.5 overflow-hidden">
+                    <div className="bg-red-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${barWidth}%` }} />
+                  </div>
                 </div>
-                <p className="text-xs text-red-600">{v.zone}</p>
-                <div className="mt-2 w-full bg-red-200 rounded-full h-1.5">
-                  <div className="bg-red-500 h-1.5 rounded-full" style={{ width: `${(v.count / 156) * 100}%` }} />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
