@@ -1,0 +1,105 @@
+city_id,city_name,state_name,latitude,longitude,population,population_category,traffic_density_level
+CITY001,Mumbai,Maharashtra,19.076,72.8777,12442373,Metro,Very High
+CITY002,Pune,Maharashtra,18.5204,73.8567,3124458,Large,High
+CITY003,Nagpur,Maharashtra,21.1458,79.0882,2405665,Large,High
+CITY004,Thane,Maharashtra,19.2183,72.9781,1841450,Large,High
+CITY005,Nashik,Maharashtra,19.9975,73.7898,1486050,Large,High
+CITY006,Aurangabad,Maharashtra,19.8762,75.3433,1189060,Large,High
+CITY007,Navi Mumbai,Maharashtra,19.033,73.0297,1120540,Large,High
+CITY008,Solapur,Maharashtra,17.6599,75.9064,951600,Medium,Medium
+CITY009,Kolhapur,Maharashtra,16.705,74.2433,561800,Medium,Medium
+CITY010,Amravati,Maharashtra,20.932,77.7523,647060,Medium,Medium
+CITY011,Sangli,Maharashtra,16.8524,74.5815,436600,Medium,Medium
+CITY012,Jalgaon,Maharashtra,21.0077,75.5626,460400,Medium,Medium
+CITY013,Akola,Maharashtra,20.7,77.0,425800,Medium,Medium
+CITY014,Delhi,Delhi,28.7041,77.1025,11034555,Metro,Very High
+CITY015,Bengaluru,Karnataka,12.9716,77.5946,8443675,Metro,Very High
+CITY016,Mysuru,Karnataka,12.2958,76.6394,920550,Medium,Medium
+CITY017,Hubli-Dharwad,Karnataka,15.3647,75.124,943800,Medium,Medium
+CITY018,Mangaluru,Karnataka,12.9141,74.856,488900,Medium,Medium
+CITY019,Belagavi,Karnataka,15.8523,74.4977,488300,Medium,Medium
+CITY020,Gulbarga,Karnataka,17.3297,76.8343,533600,Medium,Medium
+CITY021,Hyderabad,Telangana,17.385,78.4867,6809970,Metro,Very High
+CITY022,Warangal,Telangana,17.9784,79.5941,704600,Medium,Medium
+CITY023,Nizamabad,Telangana,18.673,78.0941,311700,Medium,Medium
+CITY024,Chennai,Tamil Nadu,13.0827,80.2707,4681087,Large,High
+CITY025,Coimbatore,Tamil Nadu,11.0168,76.9558,1050720,Large,High
+CITY026,Madurai,Tamil Nadu,9.9252,78.1198,1017860,Large,High
+CITY027,Salem,Tamil Nadu,11.6643,78.146,829570,Medium,Medium
+CITY028,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,916700,Medium,Medium
+CITY029,Tirunelveli,Tamil Nadu,8.7139,77.7567,474800,Medium,Medium
+CITY030,Vellore,Tamil Nadu,12.9165,79.1325,481900,Medium,Medium
+CITY031,Kolkata,West Bengal,22.5726,88.3639,4496694,Large,High
+CITY032,Howrah,West Bengal,22.576,88.2634,1072300,Large,High
+CITY033,Durgapur,West Bengal,23.5204,87.3119,566500,Medium,Medium
+CITY034,Asansol,West Bengal,23.684,86.9524,563000,Medium,Medium
+CITY035,Siliguri,West Bengal,26.7271,88.3955,513400,Medium,Medium
+CITY036,Jaipur,Rajasthan,26.9124,75.7873,3073350,Large,High
+CITY037,Jodhpur,Rajasthan,26.2389,73.0243,1039900,Large,High
+CITY038,Udaipur,Rajasthan,24.5854,73.7125,451100,Medium,Medium
+CITY039,Kota,Rajasthan,25.18,75.8645,764100,Medium,Medium
+CITY040,Ajmer,Rajasthan,26.4499,74.6399,542600,Medium,Medium
+CITY041,Lucknow,Uttar Pradesh,26.8467,80.9462,2817105,Large,High
+CITY042,Kanpur,Uttar Pradesh,26.4499,80.3319,2765340,Large,High
+CITY043,Agra,Uttar Pradesh,27.1767,78.0081,1576000,Large,High
+CITY044,Varanasi,Uttar Pradesh,25.3176,83.0103,1198700,Large,High
+CITY045,Allahabad,Uttar Pradesh,25.4358,81.8463,1170000,Large,High
+CITY046,Meerut,Uttar Pradesh,28.9845,77.7064,1024000,Large,High
+CITY047,Bareilly,Uttar Pradesh,28.367,79.4304,903600,Medium,Medium
+CITY048,Aligarh,Uttar Pradesh,27.8974,78.0887,672600,Medium,Medium
+CITY049,Moradabad,Uttar Pradesh,28.8389,78.7768,887800,Medium,Medium
+CITY050,Ghaziabad,Uttar Pradesh,28.6692,77.4538,1632300,Large,High
+CITY051,Noida,Uttar Pradesh,28.5355,77.391,642400,Medium,Medium
+CITY052,Ahmedabad,Gujarat,23.0225,72.5714,5577940,Metro,Very High
+CITY053,Surat,Gujarat,21.1702,72.8311,4467000,Large,High
+CITY054,Vadodara,Gujarat,22.3072,73.1812,1791200,Large,High
+CITY055,Rajkot,Gujarat,22.3039,70.8022,1283000,Large,High
+CITY056,Bhavnagar,Gujarat,21.7645,72.1539,593800,Medium,Medium
+CITY057,Jamnagar,Gujarat,22.4707,70.0577,479900,Medium,Medium
+CITY058,Bhopal,Madhya Pradesh,23.2599,77.4126,1795648,Large,High
+CITY059,Indore,Madhya Pradesh,22.7196,75.8577,1964000,Large,High
+CITY060,Jabalpur,Madhya Pradesh,23.1815,79.9864,1055000,Large,High
+CITY061,Gwalior,Madhya Pradesh,26.2183,78.1828,1069300,Large,High
+CITY062,Ujjain,Madhya Pradesh,23.1793,75.7684,515200,Medium,Medium
+CITY063,Kochi,Kerala,9.9312,76.2673,602000,Medium,Medium
+CITY064,Thiruvananthapuram,Kerala,8.5241,76.9366,744900,Medium,Medium
+CITY065,Kozhikode,Kerala,11.2588,75.7804,431500,Medium,Medium
+CITY066,Thrissur,Kerala,10.5276,76.2144,315600,Medium,Medium
+CITY067,Kollam,Kerala,8.8813,76.5847,349000,Medium,Medium
+CITY068,Patna,Bihar,25.6093,85.1376,1684200,Large,High
+CITY069,Gaya,Bihar,24.7955,84.9999,470900,Medium,Medium
+CITY070,Muzaffarpur,Bihar,26.122,85.391,354000,Medium,Medium
+CITY071,Bhagalpur,Bihar,25.2437,86.9719,350100,Medium,Medium
+CITY072,Ludhiana,Punjab,30.9,75.8573,1419000,Large,High
+CITY073,Amritsar,Punjab,31.634,74.8723,1132400,Large,High
+CITY074,Jalandhar,Punjab,31.326,75.5762,862900,Medium,Medium
+CITY075,Faridabad,Haryana,28.4089,77.3178,1404650,Large,High
+CITY076,Gurugram,Haryana,28.4595,77.0266,876900,Medium,Medium
+CITY077,Panipat,Haryana,29.3909,76.9635,442300,Medium,Medium
+CITY078,Guwahati,Assam,26.1445,91.7362,957400,Medium,Medium
+CITY079,Silchar,Assam,24.8333,92.7789,172900,Small,Low
+CITY080,Bhubaneswar,Odisha,20.2961,85.8245,837700,Medium,Medium
+CITY081,Cuttack,Odisha,20.4625,85.883,606000,Medium,Medium
+CITY082,Rourkela,Odisha,22.2604,84.8536,273700,Small,Low
+CITY083,Raipur,Chhattisgarh,21.2514,81.6296,1013000,Large,High
+CITY084,Bhilai,Chhattisgarh,21.2167,81.4333,625700,Medium,Medium
+CITY085,Ranchi,Jharkhand,23.3441,85.3096,1073400,Large,High
+CITY086,Jamshedpur,Jharkhand,22.8015,86.2029,631400,Medium,Medium
+CITY087,Dehradun,Uttarakhand,30.3165,78.0322,578400,Medium,Medium
+CITY088,Haridwar,Uttarakhand,29.9457,78.1642,228800,Small,Low
+CITY089,Shimla,Himachal Pradesh,31.1048,77.1734,169600,Small,Low
+CITY090,Dharamshala,Himachal Pradesh,32.219,76.3234,53500,Small,Low
+CITY091,Srinagar,Jammu & Kashmir,34.0837,74.7973,1180600,Large,High
+CITY092,Jammu,Jammu & Kashmir,32.7266,74.857,502100,Medium,Medium
+CITY093,Chandigarh,Chandigarh,30.7333,76.7794,961800,Medium,Medium
+CITY094,Panaji,Goa,15.4909,73.8278,114600,Small,Low
+CITY095,Margao,Goa,15.2993,74.0563,87000,Small,Low
+CITY096,Shillong,Meghalaya,25.5788,91.8933,143300,Small,Low
+CITY097,Agartala,Tripura,23.8315,91.2868,400000,Medium,Medium
+CITY098,Imphal,Manipur,24.817,93.9368,268200,Small,Low
+CITY099,Visakhapatnam,Andhra Pradesh,17.6868,83.2185,2036000,Large,High
+CITY100,Vijayawada,Andhra Pradesh,16.5062,80.648,1034000,Large,High
+CITY101,Guntur,Andhra Pradesh,16.3067,80.4365,647500,Medium,Medium
+CITY102,Tirupati,Andhra Pradesh,13.6288,79.4192,374300,Medium,Medium
+CITY103,Gangtok,Sikkim,27.3389,88.6065,100700,Small,Low
+CITY104,Kohima,Nagaland,25.6751,94.1086,99000,Small,Low

@@ -1,0 +1,111 @@
+city_id,city_name,state_name,latitude,longitude,population_category,traffic_density_level
+C001,Mumbai,Maharashtra,19.076,72.8777,Metro,Very High
+C002,Pune,Maharashtra,18.5204,73.8567,Metro,Very High
+C003,Nagpur,Maharashtra,21.1458,79.0882,Metro,High
+C004,Nashik,Maharashtra,19.9975,73.7898,Tier 1,High
+C005,Aurangabad,Maharashtra,19.8762,75.3433,Tier 2,Medium
+C006,Solapur,Maharashtra,17.6599,75.9064,Tier 2,Medium
+C007,Kolhapur,Maharashtra,16.705,74.2433,Tier 2,Medium
+C008,Delhi,Delhi NCR,28.7041,77.1025,Metro,Very High
+C009,Noida,Delhi NCR,28.5355,77.391,Tier 1,Very High
+C010,Gurugram,Delhi NCR,28.4595,77.0266,Tier 1,Very High
+C011,Faridabad,Delhi NCR,28.4089,77.3178,Tier 1,High
+C012,Bengaluru,Karnataka,12.9716,77.5946,Metro,Very High
+C013,Mysuru,Karnataka,12.2958,76.6394,Tier 1,Medium
+C014,Mangaluru,Karnataka,12.9141,74.856,Tier 2,Medium
+C015,Hyderabad,Telangana,17.385,78.4867,Metro,Very High
+C016,Warangal,Telangana,17.9784,79.5941,Tier 2,Medium
+C017,Chennai,Tamil Nadu,13.0827,80.2707,Metro,Very High
+C018,Coimbatore,Tamil Nadu,11.0168,76.9558,Tier 1,High
+C019,Madurai,Tamil Nadu,9.9252,78.1198,Tier 1,Medium
+C020,Salem,Tamil Nadu,11.6643,78.146,Tier 2,Medium
+C021,Erode,Tamil Nadu,11.341,77.7172,Tier 2,Medium
+C022,Tirupati,Tamil Nadu,13.6288,79.4192,Tier 2,Medium
+C023,Kolkata,West Bengal,22.5726,88.3639,Metro,Very High
+C024,Ahmedabad,Gujarat,23.0225,72.5714,Metro,Very High
+C025,Surat,Gujarat,21.1702,72.8311,Metro,Very High
+C026,Rajkot,Gujarat,22.3039,70.8022,Tier 1,Medium
+C027,Vadodara,Gujarat,22.3072,73.1812,Tier 1,High
+C028,Jaipur,Rajasthan,26.9124,75.7873,Metro,High
+C029,Jodhpur,Rajasthan,26.2389,73.0243,Tier 1,Medium
+C030,Udaipur,Rajasthan,24.5854,73.7125,Tier 2,Medium
+C031,Kota,Rajasthan,25.2138,75.8648,Tier 2,Medium
+C032,Ajmer,Rajasthan,26.4499,74.6399,Tier 2,Medium
+C033,Lucknow,Uttar Pradesh,26.8467,80.9462,Metro,High
+C034,Kanpur,Uttar Pradesh,26.4499,80.3319,Tier 1,Very High
+C035,Varanasi,Uttar Pradesh,25.3176,83.0064,Tier 1,High
+C036,Prayagraj,Uttar Pradesh,25.4358,81.8463,Tier 1,High
+C037,Agra,Uttar Pradesh,27.1767,78.0081,Tier 1,High
+C038,Meerut,Uttar Pradesh,28.9845,77.7064,Tier 1,High
+C039,Bhopal,Madhya Pradesh,23.2599,77.4126,Metro,High
+C040,Indore,Madhya Pradesh,22.7196,75.8577,Tier 1,High
+C041,Jabalpur,Madhya Pradesh,23.1815,79.9864,Tier 2,Medium
+C042,Gwalior,Madhya Pradesh,26.2183,78.1828,Tier 2,Medium
+C043,Patna,Bihar,25.6093,85.1376,Metro,High
+C044,Ranchi,Jharkhand,23.3441,85.3096,Tier 1,Medium
+C045,Bhubaneswar,Odisha,20.2961,85.8245,Tier 1,Medium
+C046,Kochi,Kerala,9.9312,76.2673,Tier 1,High
+C047,Thiruvananthapuram,Kerala,8.5241,76.9366,Tier 1,Medium
+C048,Chandigarh,Punjab,30.7333,76.7794,Tier 1,High
+C049,Ludhiana,Punjab,30.901,75.8573,Tier 1,Medium
+C050,Amritsar,Punjab,31.634,74.8723,Tier 1,Medium
+C051,Guwahati,Assam,26.1445,91.7362,Tier 1,Medium
+C052,Shillong,Meghalaya,25.5788,91.8933,Tier 2,Low
+C053,Dehradun,Uttarakhand,30.3165,78.0322,Tier 1,Medium
+C054,Haridwar,Uttarakhand,29.9457,78.1647,Tier 2,Medium
+C055,Raipur,Chhattisgarh,21.2514,81.6296,Tier 1,Medium
+C056,Bilaspur,Chhattisgarh,22.0797,82.1391,Tier 2,Low
+C057,Visakhapatnam,Andhra Pradesh,17.6868,83.2185,Tier 1,High
+C058,Vijayawada,Andhra Pradesh,16.5062,80.648,Tier 1,Medium
+C059,Thane,Maharashtra,19.2183,72.9781,Tier 1,Very High
+C060,Navi Mumbai,Maharashtra,19.033,73.0297,Tier 1,High
+C061,Amravati,Maharashtra,20.932,77.7523,Tier 2,Medium
+C062,Sangli,Maharashtra,16.8544,74.5643,Tier 2,Low
+C063,Jalgaon,Maharashtra,21.0077,75.5625,Tier 2,Low
+C064,Dhule,Maharashtra,20.9042,74.7749,Tier 2,Low
+C065,Nanded,Maharashtra,19.1383,77.3207,Tier 2,Low
+C066,Hubli,Karnataka,15.3647,75.124,Tier 2,Medium
+C067,Belgaum,Karnataka,15.8523,74.4977,Tier 2,Medium
+C068,Davangere,Karnataka,14.4644,75.9213,Tier 2,Low
+C069,Shimoga,Karnataka,13.9299,75.5681,Tier 2,Low
+C070,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,Tier 1,Medium
+C071,Tirunelveli,Tamil Nadu,8.7139,77.7567,Tier 2,Low
+C072,Vellore,Tamil Nadu,12.9165,79.1325,Tier 2,Medium
+C073,Thanjavur,Tamil Nadu,10.787,79.1378,Tier 2,Low
+C074,Bhavnagar,Gujarat,21.7645,72.1539,Tier 2,Medium
+C075,Jamnagar,Gujarat,22.4707,70.0577,Tier 2,Low
+C076,Gandhinagar,Gujarat,23.2156,72.6369,Tier 2,Medium
+C077,Junagadh,Gujarat,21.5222,70.4577,Tier 2,Low
+C078,Bikaner,Rajasthan,28.0229,73.3119,Tier 2,Medium
+C079,Alwar,Rajasthan,27.553,76.6343,Tier 2,Low
+C080,Bharatpur,Rajasthan,27.2173,77.4901,Tier 2,Low
+C081,Agra Rural,Uttar Pradesh,27.25,78.05,Tier 2,Medium
+C082,Bareilly,Uttar Pradesh,28.367,79.4304,Tier 1,Medium
+C083,Moradabad,Uttar Pradesh,28.8389,78.7768,Tier 2,Medium
+C084,Gorakhpur,Uttar Pradesh,26.7606,83.373,Tier 1,Medium
+C085,Jhansi,Uttar Pradesh,25.4484,78.5685,Tier 2,Low
+C086,Saharanpur,Uttar Pradesh,29.9695,77.545,Tier 2,Low
+C087,Mathura,Uttar Pradesh,27.4924,77.6737,Tier 2,Medium
+C088,Howrah,West Bengal,22.576,88.2634,Tier 1,High
+C089,Durgapur,West Bengal,23.5204,87.3119,Tier 2,Medium
+C090,Siliguri,West Bengal,26.7271,88.3953,Tier 2,Medium
+C091,Ujjain,Madhya Pradesh,23.1793,75.7684,Tier 2,Medium
+C092,Sagar,Madhya Pradesh,23.8388,78.7378,Tier 2,Low
+C093,Gaya,Bihar,24.7955,84.9999,Tier 2,Low
+C094,Muzaffarpur,Bihar,26.122,85.391,Tier 2,Medium
+C095,Jamshedpur,Jharkhand,22.8046,86.2029,Tier 1,Medium
+C096,Dhanbad,Jharkhand,23.7957,86.4304,Tier 2,Medium
+C097,Cuttack,Odisha,20.4625,85.883,Tier 2,Medium
+C098,Rourkela,Odisha,22.2587,84.9006,Tier 2,Low
+C099,Kozhikode,Kerala,11.2588,75.7804,Tier 1,Medium
+C100,Thrissur,Kerala,10.5276,76.2144,Tier 2,Medium
+C101,Jalandhar,Punjab,31.326,75.5762,Tier 1,Medium
+C102,Patiala,Punjab,30.3398,76.3859,Tier 2,Low
+C103,Panipat,Haryana,29.3909,76.9635,Tier 2,Medium
+C104,Ambala,Haryana,30.3782,76.7767,Tier 2,Low
+C105,Dibrugarh,Assam,27.4489,94.9118,Tier 2,Low
+C106,Silchar,Assam,24.8333,92.7789,Tier 2,Low
+C107,Karimnagar,Telangana,18.436,79.132,Tier 2,Low
+C108,Nizamabad,Telangana,18.6725,78.0941,Tier 2,Low
+C109,Tirupati,Andhra Pradesh,13.6288,79.4192,Tier 2,Medium
+C110,Guntur,Andhra Pradesh,16.3067,80.4365,Tier 1,Medium
