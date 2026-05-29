@@ -12,12 +12,13 @@ import RulesEngineView from '@/components/dashboard/RulesEngineView';
 import ReportsView from '@/components/dashboard/ReportsView';
 import SettingsView from '@/components/dashboard/SettingsView';
 import { useCityStore } from '@/lib/city-store';
+import { MOCK_NOW } from '@/lib/dashboard-data';
 
 export default function Home() {
   const [activeNav, setActiveNav] = React.useState<NavItem>('dashboard');
   const { selectedCity, setSelectedCity } = useCityStore();
   const [isOnline] = React.useState(true);
-  const [lastUpdated] = React.useState(new Date().toISOString());
+  const [lastUpdated] = React.useState(MOCK_NOW);
 
   const renderView = () => {
     switch (activeNav) {

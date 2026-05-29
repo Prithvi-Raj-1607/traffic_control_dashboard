@@ -67,7 +67,6 @@ export default function IndiaRiskMap({ markers, onCityClick }: IndiaRiskMapProps
       map.remove();
       mapInstanceRef.current = null;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <div ref={mapRef} className="w-full h-full rounded-xl" />;

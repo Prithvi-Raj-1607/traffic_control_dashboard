@@ -122,6 +122,10 @@ export interface CitySummary {
   humidity: number;
 }
 
+export const MOCK_NOW = '2026-05-28T10:30:00.000Z';
+const mockTimestampMinutesAgo = (minutes: number) =>
+  new Date(new Date(MOCK_NOW).getTime() - minutes * 60000).toISOString();
+
 // ── Indian Cities Data ──
 export const citiesData: CityData[] = [
   { name: 'Nagpur', state: 'Maharashtra', lat: 21.1458, lon: 79.0882, population: 2405665, totalViolations: 45230, totalAccidents: 1245, riskScore: 78 },
@@ -271,14 +275,23 @@ export const citySummaries: Record<string, CitySummary> = {
   'Lucknow': { city: 'Lucknow', state: 'Uttar Pradesh', totalViolations: 34500, totalAccidents: 1050, highRiskAreas: 7, mostCommonViolation: 'Signal Jumping', avgSpeed: 36, totalFineCollected: 25780000, weather: 'Foggy', riskScore: 69, temperature: 30, humidity: 60 },
 };
 
+const ACTIVE_VEHICLE_POPULATION_RATE = 0.02;
+const estimateActiveVehicleCount = (population: number) =>
+  Math.round(population * ACTIVE_VEHICLE_POPULATION_RATE);
+const allIndiaVehicleCount = citiesData.reduce(
+  (total, city) => total + estimateActiveVehicleCount(city.population),
+  0
+);
+const allIndiaVehicleTrendFactors = [0.93, 0.95, 0.91, 0.97, 0.99, 1.01, 0.98, 1];
+
 // ── Traffic Insights ──
 export const trafficInsights: TrafficInsight = {
-  vehicleCount: 128456,
+  vehicleCount: allIndiaVehicleCount,
   avgSpeed: 42,
   violationCount: 8734,
   accidentDetected: 23,
-  lastUpdated: new Date().toISOString(),
-  vehicleCountTrend: [120000, 122000, 118000, 125000, 128000, 130000, 127000, 128456],
+  lastUpdated: MOCK_NOW,
+  vehicleCountTrend: allIndiaVehicleTrendFactors.map(factor => Math.round(allIndiaVehicleCount * factor)),
   avgSpeedTrend: [40, 42, 38, 44, 41, 43, 39, 42],
   violationTrend: [8200, 8500, 8100, 8900, 8400, 8600, 8700, 8734],
   accidentTrend: [18, 22, 19, 25, 20, 24, 21, 23],
@@ -286,14 +299,14 @@ export const trafficInsights: TrafficInsight = {
 
 // ── Recent Events ──
 export const recentEvents: EventData[] = [
-  { id: 'evt1', title: 'Multi-Vehicle Collision on NH-44', description: 'Three vehicles involved in a high-speed collision near Hingna T-point. Truck rammed into two cars waiting at signal.', severity: 'Critical', location: 'NH-44, Hingna T-Point', city: 'Nagpur', accidentOccurred: true, weather: 'Clear', vehicleTypes: ['Truck', 'Car', 'Car'], affectedLanes: 3, ambulanceOnScene: true, policeOnScene: true, fireOnScene: false, timestamp: new Date(Date.now() - 15 * 60000).toISOString() },
-  { id: 'evt2', title: 'Overspeeding Violation Cluster', description: 'Cluster of 12 overspeeding violations detected on Wardha Road stretch between Dharampeth and Sitabuldi.', severity: 'High', location: 'Wardha Road', city: 'Nagpur', accidentOccurred: false, weather: 'Clear', vehicleTypes: ['Car', 'Bike', 'Car', 'SUV'], affectedLanes: 2, ambulanceOnScene: false, policeOnScene: true, fireOnScene: false, timestamp: new Date(Date.now() - 32 * 60000).toISOString() },
-  { id: 'evt3', title: 'Signal Jumping at Hinjewadi Junction', description: 'Multiple signal jumping incidents detected at Hinjewadi Phase-2 junction during peak hours.', severity: 'Medium', location: 'Hinjewadi Phase-2', city: 'Pune', accidentOccurred: false, weather: 'Cloudy', vehicleTypes: ['Bike', 'Auto', 'Car'], affectedLanes: 1, ambulanceOnScene: false, policeOnScene: false, fireOnScene: false, timestamp: new Date(Date.now() - 45 * 60000).toISOString() },
-  { id: 'evt4', title: 'Bike-Pedestrian Accident', description: 'Two-wheeler hit a pedestrian at Bandra-Worli Sea Link approach. Pedestrian injured and transported to hospital.', severity: 'Critical', location: 'Bandra-Worli Sea Link', city: 'Mumbai', accidentOccurred: true, weather: 'Clear', vehicleTypes: ['Bike'], affectedLanes: 1, ambulanceOnScene: true, policeOnScene: true, fireOnScene: false, timestamp: new Date(Date.now() - 58 * 60000).toISOString() },
-  { id: 'evt5', title: 'Drunk Driving Detection', description: 'AI camera detected suspected drunk driving on Rohini Sector 7. Vehicle intercepted and driver booked.', severity: 'High', location: 'Rohini Sector 7', city: 'Delhi', accidentOccurred: false, weather: 'Hazy', vehicleTypes: ['Car'], affectedLanes: 1, ambulanceOnScene: false, policeOnScene: true, fireOnScene: false, timestamp: new Date(Date.now() - 72 * 60000).toISOString() },
-  { id: 'evt6', title: 'Traffic Jam on Silk Board', description: 'Severe traffic congestion at Silk Board Junction due to waterlogging from heavy rain. Multiple lanes blocked.', severity: 'Medium', location: 'Silk Board Junction', city: 'Bengaluru', accidentOccurred: false, weather: 'Rainy', vehicleTypes: ['Car', 'Bus', 'Bike'], affectedLanes: 3, ambulanceOnScene: false, policeOnScene: true, fireOnScene: false, timestamp: new Date(Date.now() - 90 * 60000).toISOString() },
-  { id: 'evt7', title: 'ORR Overspeeding Alert', description: 'Speed camera flagged 8 vehicles exceeding 120km/h limit on Outer Ring Road near Gachibowli.', severity: 'High', location: 'Gachibowli ORR', city: 'Hyderabad', accidentOccurred: false, weather: 'Clear', vehicleTypes: ['Car', 'SUV', 'Car'], affectedLanes: 2, ambulanceOnScene: false, policeOnScene: true, fireOnScene: false, timestamp: new Date(Date.now() - 105 * 60000).toISOString() },
-  { id: 'evt8', title: 'Wrong Side Driving Incident', description: 'Multiple wrong-side driving incidents detected near Charminar area creating dangerous situations.', severity: 'Low', location: 'Charminar Area', city: 'Hyderabad', accidentOccurred: false, weather: 'Clear', vehicleTypes: ['Bike', 'Auto'], affectedLanes: 1, ambulanceOnScene: false, policeOnScene: false, fireOnScene: false, timestamp: new Date(Date.now() - 120 * 60000).toISOString() },
+  { id: 'evt1', title: 'Multi-Vehicle Collision on NH-44', description: 'Three vehicles involved in a high-speed collision near Hingna T-point. Truck rammed into two cars waiting at signal.', severity: 'Critical', location: 'NH-44, Hingna T-Point', city: 'Nagpur', accidentOccurred: true, weather: 'Clear', vehicleTypes: ['Truck', 'Car', 'Car'], affectedLanes: 3, ambulanceOnScene: true, policeOnScene: true, fireOnScene: false, timestamp: mockTimestampMinutesAgo(15) },
+  { id: 'evt2', title: 'Overspeeding Violation Cluster', description: 'Cluster of 12 overspeeding violations detected on Wardha Road stretch between Dharampeth and Sitabuldi.', severity: 'High', location: 'Wardha Road', city: 'Nagpur', accidentOccurred: false, weather: 'Clear', vehicleTypes: ['Car', 'Bike', 'Car', 'SUV'], affectedLanes: 2, ambulanceOnScene: false, policeOnScene: true, fireOnScene: false, timestamp: mockTimestampMinutesAgo(32) },
+  { id: 'evt3', title: 'Signal Jumping at Hinjewadi Junction', description: 'Multiple signal jumping incidents detected at Hinjewadi Phase-2 junction during peak hours.', severity: 'Medium', location: 'Hinjewadi Phase-2', city: 'Pune', accidentOccurred: false, weather: 'Cloudy', vehicleTypes: ['Bike', 'Auto', 'Car'], affectedLanes: 1, ambulanceOnScene: false, policeOnScene: false, fireOnScene: false, timestamp: mockTimestampMinutesAgo(45) },
+  { id: 'evt4', title: 'Bike-Pedestrian Accident', description: 'Two-wheeler hit a pedestrian at Bandra-Worli Sea Link approach. Pedestrian injured and transported to hospital.', severity: 'Critical', location: 'Bandra-Worli Sea Link', city: 'Mumbai', accidentOccurred: true, weather: 'Clear', vehicleTypes: ['Bike'], affectedLanes: 1, ambulanceOnScene: true, policeOnScene: true, fireOnScene: false, timestamp: mockTimestampMinutesAgo(58) },
+  { id: 'evt5', title: 'Drunk Driving Detection', description: 'AI camera detected suspected drunk driving on Rohini Sector 7. Vehicle intercepted and driver booked.', severity: 'High', location: 'Rohini Sector 7', city: 'Delhi', accidentOccurred: false, weather: 'Hazy', vehicleTypes: ['Car'], affectedLanes: 1, ambulanceOnScene: false, policeOnScene: true, fireOnScene: false, timestamp: mockTimestampMinutesAgo(72) },
+  { id: 'evt6', title: 'Traffic Jam on Silk Board', description: 'Severe traffic congestion at Silk Board Junction due to waterlogging from heavy rain. Multiple lanes blocked.', severity: 'Medium', location: 'Silk Board Junction', city: 'Bengaluru', accidentOccurred: false, weather: 'Rainy', vehicleTypes: ['Car', 'Bus', 'Bike'], affectedLanes: 3, ambulanceOnScene: false, policeOnScene: true, fireOnScene: false, timestamp: mockTimestampMinutesAgo(90) },
+  { id: 'evt7', title: 'ORR Overspeeding Alert', description: 'Speed camera flagged 8 vehicles exceeding 120km/h limit on Outer Ring Road near Gachibowli.', severity: 'High', location: 'Gachibowli ORR', city: 'Hyderabad', accidentOccurred: false, weather: 'Clear', vehicleTypes: ['Car', 'SUV', 'Car'], affectedLanes: 2, ambulanceOnScene: false, policeOnScene: true, fireOnScene: false, timestamp: mockTimestampMinutesAgo(105) },
+  { id: 'evt8', title: 'Wrong Side Driving Incident', description: 'Multiple wrong-side driving incidents detected near Charminar area creating dangerous situations.', severity: 'Low', location: 'Charminar Area', city: 'Hyderabad', accidentOccurred: false, weather: 'Clear', vehicleTypes: ['Bike', 'Auto'], affectedLanes: 1, ambulanceOnScene: false, policeOnScene: false, fireOnScene: false, timestamp: mockTimestampMinutesAgo(120) },
 ];
 
 // ── Department Status ──
@@ -456,16 +469,18 @@ export function getTrafficInsightsForCity(city: string): TrafficInsight {
 
   const summary = citySummaries[city];
   if (!summary) return trafficInsights;
+  const cityData = citiesData.find(c => c.name === city);
+  const vehicleCount = estimateActiveVehicleCount(cityData?.population ?? 0);
 
   const ratio = summary.totalViolations / trafficInsights.violationCount;
   return {
-    vehicleCount: Math.round(trafficInsights.vehicleCount * ratio),
+    vehicleCount,
     avgSpeed: summary.avgSpeed,
     violationCount: Math.round(summary.totalViolations / 365),
     accidentDetected: Math.round(summary.totalAccidents / 365),
-    lastUpdated: new Date().toISOString(),
-    vehicleCountTrend: trafficInsights.vehicleCountTrend.map(v => Math.round(v * ratio)),
-    avgSpeedTrend: trafficInsights.avgSpeedTrend.map(() => summary.avgSpeed + Math.round((Math.random() - 0.5) * 8)),
+    lastUpdated: MOCK_NOW,
+    vehicleCountTrend: allIndiaVehicleTrendFactors.map(factor => Math.round(vehicleCount * factor)),
+    avgSpeedTrend: trafficInsights.avgSpeedTrend.map((v, index) => summary.avgSpeed + ((v + index) % 7) - 3),
     violationTrend: trafficInsights.violationTrend.map(v => Math.round(v * ratio)),
     accidentTrend: trafficInsights.accidentTrend.map(v => Math.max(1, Math.round(v * ratio))),
   };

@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { citySummaries, departmentStatus, cityAreasMap, citiesData, getTrafficInsightsForCity, getEventsForCity, getKeyMetricsForCity } from '@/lib/dashboard-data';
+import { MOCK_NOW, citySummaries, departmentStatus, cityAreasMap, citiesData, getTrafficInsightsForCity, getEventsForCity, getKeyMetricsForCity } from '@/lib/dashboard-data';
+import type { EventData, KeyMetric } from '@/lib/dashboard-data';
 import { IndiaRiskMap, CityRiskMap } from './MapPanel';
 import {
   Car, Gauge, AlertTriangle, Siren, TrendingUp, TrendingDown,
@@ -16,11 +17,15 @@ import {
 } from 'recharts';
 
 // ── Insight Card Component ──
-function InsightCard({ title, value, icon: Icon, trend, trendData, color, suffix }: {
+function InsightCard({ title, value, icon: Icon, trend, trendValue, trendData, color, suffix }: {
   title: string; value: string | number; icon: React.ElementType;
-  trend?: 'up' | 'down'; trendData: number[]; color: string; suffix?: string;
+  trend?: 'up' | 'down' | 'stable'; trendValue?: number; trendData: number[]; color: string; suffix?: string;
 }) {
   const chartData = trendData.map((v, i) => ({ x: i, y: v }));
+  const latestTrendPoint = trendData[trendData.length - 1] ?? 0;
+  const previousTrendPoint = trendData[trendData.length - 2] ?? 0;
+  const computedTrendValue = trendValue ?? Math.max(1, Math.round(Math.abs(latestTrendPoint) - Math.abs(previousTrendPoint)));
+  const trendColor = trend === 'up' ? 'text-[#66B800]' : trend === 'down' ? 'text-amber-500' : 'text-gray-400';
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-3">
@@ -41,9 +46,9 @@ function InsightCard({ title, value, icon: Icon, trend, trendData, color, suffix
       </div>
       {trend && (
         <div className="flex items-center gap-1 mt-1">
-          {trend === 'up' ? <TrendingUp className="w-3 h-3 text-[#66B800]" /> : <TrendingDown className="w-3 h-3 text-amber-500" />}
-          <span className={`text-xs font-medium ${trend === 'up' ? 'text-[#66B800]' : 'text-amber-500'}`}>
-            {trend === 'up' ? '+' : '-'}{Math.floor(Math.random() * 10 + 2)}%
+          {trend === 'up' ? <TrendingUp className="w-3 h-3 text-[#66B800]" /> : trend === 'down' ? <TrendingDown className="w-3 h-3 text-amber-500" /> : <Gauge className="w-3 h-3 text-gray-400" />}
+          <span className={`text-xs font-medium ${trendColor}`}>
+            {trend === 'up' ? '+' : trend === 'down' ? '-' : ''}{computedTrendValue}%
           </span>
           <span className="text-xs text-gray-400">vs last hour</span>
         </div>
@@ -53,7 +58,7 @@ function InsightCard({ title, value, icon: Icon, trend, trendData, color, suffix
 }
 
 // ── Event Card Component ──
-function EventCard({ event }: { event: typeof recentEvents[0] }) {
+function EventCard({ event }: { event: EventData }) {
   const severityColors: Record<string, string> = {
     Critical: 'bg-red-100 text-red-700 border-red-200',
     High: 'bg-orange-100 text-orange-700 border-orange-200',
@@ -62,7 +67,7 @@ function EventCard({ event }: { event: typeof recentEvents[0] }) {
   };
 
   const timeAgo = (ts: string) => {
-    const diff = Date.now() - new Date(ts).getTime();
+    const diff = new Date(MOCK_NOW).getTime() - new Date(ts).getTime();
     const mins = Math.floor(diff / 60000);
     if (mins < 60) return `${mins}m ago`;
     return `${Math.floor(mins / 60)}h ago`;
@@ -184,7 +189,7 @@ function CitySummaryCard({ summary }: { summary: typeof citySummaries[string] })
 }
 
 // ── Key Metric Card ──
-function KeyMetricCard({ metric }: { metric: typeof keyMetrics[0] }) {
+function KeyMetricCard({ metric }: { metric: KeyMetric }) {
   const iconMap: Record<string, React.ElementType> = {
     Camera, Wifi, Gauge, OctagonAlert, Siren, CloudRain, IndianRupee, MapPin
   };
@@ -269,6 +274,7 @@ export default function DashboardView({ selectedCity, onCityChange, onSwitchToLi
               value={cityInsights.vehicleCount}
               icon={Car}
               trend="up"
+              trendValue={3}
               trendData={cityInsights.vehicleCountTrend}
               color="bg-[#66B800]"
             />
@@ -278,6 +284,7 @@ export default function DashboardView({ selectedCity, onCityChange, onSwitchToLi
               icon={Gauge}
               suffix=" km/h"
               trend="stable"
+              trendValue={0}
               trendData={cityInsights.avgSpeedTrend}
               color="bg-blue-500"
             />
@@ -286,6 +293,7 @@ export default function DashboardView({ selectedCity, onCityChange, onSwitchToLi
               value={cityInsights.violationCount}
               icon={AlertTriangle}
               trend="up"
+              trendValue={6}
               trendData={cityInsights.violationTrend}
               color="bg-amber-500"
             />
@@ -294,6 +302,7 @@ export default function DashboardView({ selectedCity, onCityChange, onSwitchToLi
               value={cityInsights.accidentDetected}
               icon={Siren}
               trend="down"
+              trendValue={4}
               trendData={cityInsights.accidentTrend}
               color="bg-red-500"
             />
